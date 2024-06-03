@@ -1,7 +1,7 @@
 name: Deploy EC2 on Commit
 
 on:
-  push:
+  commit:
     branches:
       - main
 
