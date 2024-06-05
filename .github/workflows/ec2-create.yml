@@ -1,16 +1,17 @@
-name: 'Deploy ec2 on commit'
+name: Create EC2 Instance
 
 on:
-   push:
+  push:
     branches:
       - main
-   inputs:
-      environment:
-        description: 'Environment to run tests against'
-        type: choice
-        required: true
-        options:
-          - dev
+  workflow_dispatch:
+     inputs:
+        environment:
+           description: 'Environment to run tests against'
+           type: choice
+           required: true
+           options:
+             - dev
   
 jobs:
   terraform:
