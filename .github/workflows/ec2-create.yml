@@ -1,25 +1,44 @@
-name: Deploy EC2 on Commit
+name: 'Deploy ec2 on commit'
 
 on:
-  push:
+   push:
     branches:
       - main
-
+   inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: choice
+        required: true
+        options:
+          - dev
+  
 jobs:
-  deploy:
+  terraform:
+    name: 'infra'
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
-   
-    - name: Set up AWS CLI
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Authenticate to aws
+      id: auth
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.ACCESSKEYID }}
+        aws-secret-access-key: ${{ secrets.SECRETACCESSKEY }}
         aws-region: ap-south-1
-  # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
