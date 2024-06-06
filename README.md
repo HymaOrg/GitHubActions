@@ -1,4 +1,4 @@
-GITHUB ACTIONS AUTOMATION 
+## GITHUB ACTIONS AUTOMATION
 
 This guide provides step-by-step instructions for the GitHub Actions to automatically create an AWS EC2 instance whenever a commit is made to a GitHub repository, using Terraform code.
 
